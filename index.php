@@ -16,6 +16,7 @@
 <?php
 echo "Prout";
 ?>
+<img src="img/image.jpg" >
 </center>
 
     <!-- / content body -->
