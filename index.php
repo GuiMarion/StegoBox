@@ -18,9 +18,10 @@ echo "Prout";
 if(isset($_FILES['image']))
 { 
 
-$uploaddir = '/var/www/html/img/';
+$extension_upload = strtolower(  substr(  strrchr($_FILES['image']['name'], '.')  ,1)  );
+$nom = "/var/www/html/img//{$id_membre}.{$extension_upload}";
 
-$resultat = move_uploaded_file($_FILES['image']['tmp_name'],$uploaddir);
+$resultat = move_uploaded_file($_FILES['image']['tmp_name'],$nom);
 if ($resultat) {
     echo "Le fichier a été téléchargé
            avec succès.\n";
