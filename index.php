@@ -15,7 +15,8 @@
 <center>
 <?php
 echo "Prout";
-
+if(isset($_FILES['image']))
+{ 
 $uploaddir = '/var/www/html/img';
 $uploadfile = $uploaddir . basename($_FILES['image']['name']);
 
@@ -24,7 +25,8 @@ if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile)) {
     echo "Le fichier est valide, et a été téléchargé
            avec succès.\n";
 } else {
-    echo "echec:\n";
+    echo "echec\n";
+}
 }
 
 ?>
