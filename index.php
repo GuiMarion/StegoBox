@@ -18,7 +18,7 @@ echo "Prout";
 if(isset($_FILES['image']))
 { 
 
-$uploaddir = '/var/www/html/img';
+$uploaddir = '/var/www/html/img/';
 
 $resultat = move_uploaded_file($_FILES['image']['tmp_name'],$uploaddir);
 if ($resultat) {
