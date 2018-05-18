@@ -1,0 +1,4 @@
+commande : steghide embed -cf img/image.jpg -ef msg/secret.txt
+steghide extract -sfimg/image.jpg
+
+faire interface html et backend php qui lance les commandes steghide

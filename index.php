@@ -14,7 +14,7 @@
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <center>
 <?php
-echo "Prout";
+echo "Rien";
 ?>
 <img src="img/image.jpg" >
 </center>
