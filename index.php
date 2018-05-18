@@ -17,12 +17,12 @@
 echo "Prout";
 if(isset($_FILES['image']))
 { 
-$uploaddir = '/var/www/html/img';
-$uploadfile = $uploaddir . basename($_FILES['image']['name']);
 
-echo '<pre>';
-if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile)) {
-    echo "Le fichier est valide, et a été téléchargé
+$uploaddir = '/var/www/html/img';
+
+$resultat = move_uploaded_file($_FILES['image']['tmp_name'],$uploaddir);
+if ($resultat) {
+    echo "Le fichier a été téléchargé
            avec succès.\n";
 } else {
     echo "echec\n";
