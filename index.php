@@ -33,6 +33,20 @@ if(isset($_FILES['image']))
 	    echo "echec\n";
 	}
 }
+// AFFICHE TT LES IMG PNG
+$dirname = "img/";
+$images = glob($dirname."*.png");
+
+foreach($images as $image) {
+    echo '<img src="'.$image.'" /><br />';
+}
+// AFFICHE TT LES IMG JPG
+$dirname = "img/";
+$images = glob($dirname."*.jpg");
+
+foreach($images as $image) {
+    echo '<img src="'.$image.'" /><br />';
+}
 
 ?>
 <form method="post" action="index.php" enctype="multipart/form-data">
@@ -43,6 +57,8 @@ if(isset($_FILES['image']))
   
 <input type="submit" name="submit" value="Envoyer" />
 </form>
+
+
 
 <img src="img/image.jpg" >
 </center>
