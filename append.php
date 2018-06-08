@@ -20,18 +20,18 @@
 		$img = $_POST['img'];
 		$msg = $_POST['msg'];
 		$pass = $_POST['pass'];
-		echo "$img $msg $pass<br/>";
+		//echo "$img $msg $pass<br/>";
 
 		$command = './script/append.sh '.$msg.' '.$img.' '.$pass;
-		echo "$command<br/>";
+		//echo "$command<br/>";
 		$output = shell_exec($command);
-		echo "<pre>$output</pre><br/>";
+		//echo "<pre>$output</pre><br/>";
 	}
 
 	// AFFICHE TT LES IMG PNG
-	$dirname = "img/";
-	$images = glob($dirname."*.png");
-	displaytemplate($images);
+	//$dirname = "img/";
+	//$images = glob($dirname."*.png");
+	//displaytemplate($images);
 
 	// AFFICHE TT LES IMG JPG
 	$dirname = "img/";

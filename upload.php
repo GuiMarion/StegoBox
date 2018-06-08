@@ -20,7 +20,7 @@ if(isset($_FILES['image']))
 { 
 	$file_name = $_FILES['image']['name'];
 	$extension_upload = strtolower(  substr(  strrchr($_FILES['image']['name'], '.')  ,1)  );
-	//$nom = "/var/www/html/img//{$id_membre}.{$extension_upload}";
+
 	$nom = SITE_ROOT."/img/{$file_name}.{$extension_upload}";
 
 	$resultat = move_uploaded_file($_FILES['image']['tmp_name'], $nom);
@@ -33,7 +33,7 @@ if(isset($_FILES['image']))
 }
 
 ?>
-<form method="post" action="index.php" enctype="multipart/form-data">
+<form method="post" action="upload.php" enctype="multipart/form-data">
 	<input type="file" name="image" />
 
 	<!-- MAX_FILE_SIZE doit précéder le champ input de type file -->
