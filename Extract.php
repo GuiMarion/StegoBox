@@ -22,30 +22,12 @@ if(isset($_POST['pwd']))
 { 
 	
 	$pwd = $_POST['pwd'];
-	$imageName = $_POST['image'];
-	$output = shell_exec('extract.sh');
-	echo "<pre>$output</pre>";
+	$img = $_POST['image'];
 
-
-
-
-
-
-
-
-
-	<!-- $file_name = $_FILES['image']['name'];
-	$extension_upload = strtolower(  substr(  strrchr($_FILES['image']['name'], '.')  ,1)  );
-	//$nom = "/var/www/html/img//{$id_membre}.{$extension_upload}";
-	$nom = SITE_ROOT."/img/{$file_name}.{$extension_upload}";
-
-	$resultat = move_uploaded_file($_FILES['image']['tmp_name'], $nom);
-	if ($resultat) {
-	    echo "Le fichier a été téléchargé
-		   avec succès.\n";
-	} else {
-	    echo "echec\n";
-	} -->
+	$command = './script/extract.sh '.$img.' '.$pwd;
+	echo "$command<br/>";
+	$output = shell_exec($command);
+	echo "<pre>$output</pre><br/>";
 }
 
 
