@@ -1,4 +1,3 @@
-commande : steghide embed -cf img/image.jpg -ef msg/secret.txt
-steghide extract -sfimg/image.jpg
+limiter uniquement à jpg et peut être bmp
 
-faire interface html et backend php qui lance les commandes steghide
+affichage (resize, centrer, margin, php include menu, ...)
