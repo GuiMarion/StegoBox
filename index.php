@@ -14,20 +14,24 @@
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <center>
 <?php
+define ('SITE_ROOT', realpath(dirname(__FILE__)));
+
 echo "Prout";
+
 if(isset($_FILES['image']))
 { 
 
-$extension_upload = strtolower(  substr(  strrchr($_FILES['image']['name'], '.')  ,1)  );
-$nom = "/var/www/html/img//{$id_membre}.{$extension_upload}";
+	$extension_upload = strtolower(  substr(  strrchr($_FILES['image']['name'], '.')  ,1)  );
+	//$nom = "/var/www/html/img//{$id_membre}.{$extension_upload}";
+	$nom = SITE_ROOT."/img/img_test.{$extension_upload}";
 
-$resultat = move_uploaded_file($_FILES['image']['tmp_name'],$nom);
-if ($resultat) {
-    echo "Le fichier a été téléchargé
-           avec succès.\n";
-} else {
-    echo "echec\n";
-}
+	$resultat = move_uploaded_file($_FILES['image']['tmp_name'], $nom);
+	if ($resultat) {
+	    echo "Le fichier a été téléchargé
+		   avec succès.\n";
+	} else {
+	    echo "echec\n";
+	}
 }
 
 ?>
@@ -35,7 +39,7 @@ if ($resultat) {
 	<input type="file" name="image" />
 
 	<!-- MAX_FILE_SIZE doit précéder le champ input de type file -->
-  <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+  <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
   
 <input type="submit" name="submit" value="Envoyer" />
 </form>
