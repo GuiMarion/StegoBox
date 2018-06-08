@@ -20,10 +20,10 @@ echo "Prout";
 
 if(isset($_FILES['image']))
 { 
-
+	$file_name = $_FILES['image']['name'];
 	$extension_upload = strtolower(  substr(  strrchr($_FILES['image']['name'], '.')  ,1)  );
 	//$nom = "/var/www/html/img//{$id_membre}.{$extension_upload}";
-	$nom = SITE_ROOT."/img/img_test.{$extension_upload}";
+	$nom = SITE_ROOT."/img/{$file_name}.{$extension_upload}";
 
 	$resultat = move_uploaded_file($_FILES['image']['tmp_name'], $nom);
 	if ($resultat) {
