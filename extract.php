@@ -62,14 +62,14 @@ displayTemplate($images);
 
 function displayTemplate($images){
 	foreach($images as $image) {
-		echo '<div>';
+		echo '<div width="150" height="150">';
 	    echo '<form method="post" action="extract.php">';
 	    echo '<label for="pwd">Mot de Passe : </label>';
 	    echo '<input type="password" name="pwd">';
 	    echo '<input type="hidden" name="image" value="'.$image.'">';
 	    echo '<input type="submit" name="submit" value="Go">';
 	    echo '</form>';
-	    echo '<img src="'.$image.'" width="90" height="90"/><br />';
+	    echo '<img src="'.$image.'" width="150" height="150"/><br />';
 	    echo '</div>';
 	}
 }
