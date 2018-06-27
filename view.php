@@ -16,7 +16,6 @@
       <a class="navbar-brand" href="#">StagoBox</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
       <li><a href="upload.php">Upload</a></li>
       <li><a href="append.php">Append</a></li>
       <li><a href="extract.php">Extract</a></li>
