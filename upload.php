@@ -38,13 +38,13 @@ if(isset($_FILES['image']))
 	$file_name = $_FILES['image']['name'];
 	$extension_upload = strtolower(  substr(  strrchr($_FILES['image']['name'], '.')  ,1)  );
 
-	/*if ($extension_upload != ".jpg" && $extension_upload != ".jpeg"){
+	if ($extension_upload != ".jpg" && $extension_upload != ".jpeg"){
 
-		echo("Vous ne pouvez télécharger que des images au format jpeg.")
+		//echo("Vous ne pouvez télécharger que des images au format jpeg.")
 
 	}
 
-	else{*/
+	else{
 
 		$nom = SITE_ROOT."/img/{$file_name}.{$extension_upload}";
 
@@ -56,7 +56,7 @@ if(isset($_FILES['image']))
 		    echo "echec\n";
 		}
 
-	//}
+	}
 
 }
 
