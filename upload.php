@@ -40,7 +40,7 @@ if(isset($_FILES['image']))
 
 	if ($extension_upload != ".jpg" && $extension_upload != ".jpeg"){
 
-		//echo("Vous ne pouvez télécharger que des images au format jpeg.")
+		echo "Vous ne pouvez télécharger que des images au format jpeg."
 
 	}
 
