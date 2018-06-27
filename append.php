@@ -59,7 +59,7 @@
 
 	function displayTemplate($images) {
 		foreach($images as $image) {
-			echo '<div width="90" height="90">';
+			echo '<div>';
 			echo '<form method="post" action="append.php">';
 			echo '<label for="msg">Message : </label>';
 			echo '<input type="text" placeholder="Entrez le message" id="msg" name="msg">';
@@ -69,8 +69,8 @@
 			echo '<button type="submit">GO</button>';
 			echo '</form>';
 			echo '<br/>';
-			echo '<img src="'.$image.'" />';
-			echo '</div>;
+			echo '<img src="'.$image.'" width="90" height="90"/>';
+			echo '</div>';
 
 		}
 	}

@@ -44,9 +44,9 @@ $dirname = "img/";
 $images = glob($dirname."*.jpg");
 
 foreach($images as $image) {
-    echo '<div width="90" height="90">';
-    echo '<img src="'.$image.'" /><br />';
-    echo '</div>;
+    echo '<div>';
+    echo '<img src="'.$image.'" width="90" height="90"/><br />';
+    echo '</div>';
 }
 
 ?>
