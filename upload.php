@@ -28,7 +28,7 @@
 <!-- content -->
 <div class="wrapper row2">
         
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br>
 <center>
 <?php
 define ('SITE_ROOT', realpath(dirname(__FILE__)));

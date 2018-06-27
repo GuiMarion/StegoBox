@@ -28,8 +28,7 @@
 </nav>
 <!-- content -->
 <div class="wrapper row2">
-        
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br/><br/>        
 <center>
 <?php
 
