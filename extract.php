@@ -62,6 +62,7 @@ displayTemplate($images);
 
 function displayTemplate($images){
 	foreach($images as $image) {
+		echo '<div width="90" height="90">';
 	    echo '<form method="post" action="extract.php">';
 	    echo '<label for="pwd">Mot de Passe : </label>';
 	    echo '<input type="password" name="pwd">';
@@ -69,6 +70,7 @@ function displayTemplate($images){
 	    echo '<input type="submit" name="submit" value="Go">';
 	    echo '</form>';
 	    echo '<img src="'.$image.'" /><br />';
+	    echo '</div>';
 	}
 }
 
