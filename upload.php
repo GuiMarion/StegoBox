@@ -44,7 +44,7 @@ if(isset($_FILES['image']))
 
 	}
 
-	else{
+	else{*/
 
 		$nom = SITE_ROOT."/img/{$file_name}.{$extension_upload}";
 
@@ -56,8 +56,8 @@ if(isset($_FILES['image']))
 		    echo "echec\n";
 		}
 
-	}
-	*/
+	//}
+
 }
 
 ?>
