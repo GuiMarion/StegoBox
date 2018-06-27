@@ -47,7 +47,7 @@ if(isset($_FILES['image']))
 
 	else{
 
-		$nom = SITE_ROOT."/img/{$file_name}.{$extension_upload}";
+		$nom = SITE_ROOT."/img/{$file_name}.jpg";
 
 		$resultat = move_uploaded_file($_FILES['image']['tmp_name'], $nom);
 		if ($resultat) {
