@@ -38,15 +38,17 @@ $images = glob($dirname."*.png");
 
 foreach($images as $image) {
     echo '<img src="'.$image.'" /><br />';
+    echo '<br/>';
 }
 // AFFICHE TT LES IMG JPG
 $dirname = "img/";
 $images = glob($dirname."*.jpg");
 
 foreach($images as $image) {
-    echo '<div>';
-    echo '<img src="'.$image.'" width="90" height="90"/><br />';
+    echo '<div width="50%" height="50%" style="margin-bottom: 50px;">';
+    echo '<img src="'.$image.'" width="50%" height="50%"/><br />';
     echo '</div>';
+    echo '<br/>';
 }
 
 ?>
