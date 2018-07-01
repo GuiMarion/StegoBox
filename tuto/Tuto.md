@@ -1,6 +1,9 @@
 # StegoBox 
 
-Ce projet présente comment utiliser les méthodes de programmations embarquée pour créer une clef usb bootable contenant un OS minimal ainsi qu'une application web permettant de faire de la stéganographie. En suivant se tutoriel vous pourrez mettre en place ce système qui, en démarrant, affichera une adresse ip sur laquelle se connecter pour acceder à l'application de stéganographie. 
+Ce projet a été réalisé par : Guilhem Marion, Boubacar Diallo et Pierre-Louis Despaigne.
+
+
+Ce projet présente comment utiliser les méthodes de programmation embarquée pour créer une clef usb bootable contenant un OS minimal ainsi qu'une application web permettant de faire de la stéganographie. En suivant se tutoriel vous pourrez mettre en place ce système qui, en démarrant, affichera une adresse ip sur laquelle se connecter pour acceder à l'application de stéganographie. 
 
 Ce tutoriel utilise debian, quemu pour mettre en place le système, nginx pour le server, et html, css, php et bash pour l'application web. 
 
@@ -11,7 +14,7 @@ La démonstration s'appuie sur le réseau de la salle de réseau de l'universit�
 Tout d'abord il faut vous installer les paquets necessaires sur votre ordinateur : 
 
 
-Passez root:
+###### Passez root:
 
 		su
 
