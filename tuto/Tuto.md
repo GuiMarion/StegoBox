@@ -186,13 +186,9 @@ Vous avez désormais configuré votre clef usb avec debian. Nous allons desormai
 
 		cd
 
-Nous allons maintenant configurer la connexion internet, si vous avez une configuration domestique cela devrait fonctionner sans les étapes suivantes. 
+Nous allons maintenant configurer la connexion internet, si vous avez une configuration domestique cela devrait fonctionner sans l'étape suivante. 
 
-Récuperez le proxy servant à se connecter à internet dans votre configuration réseau, pour ce faire lancez cette commande sur votre ordinateur (pas dans qemu ! ): 
-
-		ifconfig 
-
-
+Récuperez le proxy servant à se connecter à internet dans votre configuration réseau, pour ce faire il vous faudra certainement demander à votre administrateur réseau, souvent, ce proxy est donné au personnes étant suceptibles d'en avoir besoin.
 Pour la salle réseau de l'Université Claude Bernard Lyon 1 le proxy est : http://10.250.100.2:3128, il sera certainement different pour votre configuration.
 
 ###### Editez le fichier .bashrc (tout se passe de nouveau dans qemu) :
