@@ -1,8 +1,21 @@
+# StegoBox 
+
+Ce projet présente comment utiliser les méthodes de programmations embarquée pour créer une clef usb bootable contenant un OS minimal ainsi qu'une application web permettant de faire de la stéganographie. En suivant se tutoriel vous pourrez mettre en place ce système qui, en démarrant, affichera une adresse ip sur laquelle se connecter pour acceder à l'application de stéganographie. 
+
+Ce tutoriel utilise debian, quemu pour mettre en place le système, nginx pour le server, et html, css, php et bash pour l'application web. 
+
+La démonstration s'appuie sur le réseau de la salle de réseau de l'université Claude Bernard Lyon 1, pour obtenir une démonstratin similaire sur une configuration differente, il sera peut-être necessaire d'ajuster la mise en place, mais ne vous inquietez pas, ne détaillerons toutes les étapes necessaires ! 
+
+## Preparation de la clef usb
+
+Tout d'abord il faut vous installer les paquets necessaires sur votre ordinateur : 
+
+
 passez root:
-> su
+			su
 
 effectuez les mise-à-jour:
-> apt-get update
+			apt-get update
 
 installez debootstrap:
 > apt-get install debootstrap
@@ -305,3 +318,4 @@ Nous avons creer un script pour afficher l'address IP de la machine, ce script s
 Cependant il  n'execute pas au demarage, nous pourrions donc l'executer automatiquement grace à autologin de cette façon nous seron également logé automatiquement.
 
 De plus notre projet est vulnérable au injection de commande shell, ce qui est extremement dangeureux d'autant plus que s'execute en tant que root ! Pour remedier à cela nous aurions put essayer de bloquer les injection dans le php et également a voir une gestion plus fine des permission utilisateurs, comme en executant nos script en tant que www/data par exemple.
+
