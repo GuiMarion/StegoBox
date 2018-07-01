@@ -1,6 +1,6 @@
 # StegoBox 
 Réalisé par : Guilhem Marion, Boubacar Diallo et Pierre-Louis Despaigne.
-Ceci est le tuto accompagnant le projet [StegoBox](https://github.com.GuiMarion/StegoBox) présent sur GitHub.
+Ceci est le tuto accompagnant le projet [StegoBox](https://github.com/GuiMarion/StegoBox).
 
 Ce projet présente comment utiliser les méthodes de programmation embarquée pour créer une clef usb bootable contenant un OS minimal ainsi qu'une application web permettant de faire de la stéganographie. En suivant se tutoriel vous pourrez mettre en place ce système qui, en démarrant, affichera une adresse ip sur laquelle se connecter pour acceder à l'application de stéganographie. 
 
@@ -8,7 +8,12 @@ Ce tutoriel utilise debian, quemu pour mettre en place le système, nginx pour l
 
 La démonstration s'appuie sur le réseau de la salle de réseau de l'université Claude Bernard Lyon 1, pour obtenir une démonstratin similaire sur une configuration differente, il sera peut-être necessaire d'ajuster la mise en place, mais ne vous inquietez pas, ne détaillerons toutes les étapes necessaires ! 
 
-## Preparation de la clef usb
+## Étapes
+
+1. [Préparation de la clef](#prep)
+2. dsf
+
+## Préparation de la clef usb <a name="prep"></a>
 
 Tout d'abord il faut vous installer les paquets necessaires sur votre ordinateur : 
 
