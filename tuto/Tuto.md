@@ -63,7 +63,7 @@ Vous allez maintenant formater la clef et y installer debian, placer dans un emp
 
 		fdisk -l
 
-Elle devrait correspondre à quelque chose comme /dev/sdbX, dans notre cas la partition est /dev/sdb1, le numéro peut changer selon votre configuration, si vous n'êtes pas sûrs, debranchez la clef lancez la commande, rebranchez la clef et refaites la commande, vous verrez un nouveau périphérique, c'est la bonne clef usb !
+Elle devrait correspondre à quelque chose comme */dev/sdbX*, dans notre cas la partition est */dev/sdb1*, le numéro peut changer selon votre configuration, si vous n'êtes pas sûrs, debranchez la clef lancez la commande, rebranchez la clef et refaites la commande, vous verrez un nouveau périphérique, c'est la bonne clef usb !
 
 ###### Formatez la clée:
 
@@ -97,7 +97,7 @@ Elle devrait correspondre à quelque chose comme /dev/sdbX, dans notre cas la pa
 
 Vous êtes désormais en train de configurer la clef usb, tout ce que vous ferez se fera sur la clef usb et non sur vorez OS, c'est l'utilité de chroot.
 
-Il vous faut créer un mot de passe, choisissez, bien entendu, celui qui vous plaira, pour cela remplacez <mdp> par votre mot de passe. Pour la suite du tutoriel, nous utiliserons moi comme mot de passe, mais il faut faudra utiliser le votre. 
+Il vous faut créer un mot de passe, choisissez, bien entendu, celui qui vous plaira, pour cela remplacez *<mdp>* par votre mot de passe. Pour la suite du tutoriel, nous utiliserons *moi* comme mot de passe, mais il faut faudra utiliser le votre. 
 
 ###### Créez un mot de passe root :
 
@@ -189,13 +189,13 @@ Vous avez désormais configuré votre clef usb avec debian. Nous allons desormai
 Nous allons maintenant configurer la connexion internet, si vous avez une configuration domestique cela devrait fonctionner sans l'étape suivante. 
 
 Récupérez le proxy servant à se connecter à internet dans votre configuration réseau, pour ce faire il vous faudra certainement demander à votre administrateur réseau. Souvent, ce proxy est donné aux personnes étant suceptibles d'en avoir besoin.
-Pour la salle réseau de l'Université Claude Bernard Lyon 1 le proxy est : http://10.250.100.2:3128, il sera certainement different pour votre configuration.
+Pour la salle réseau de l'Université Claude Bernard Lyon 1 le proxy est : *http://10.250.100.2:3128*, il sera certainement different pour votre configuration.
 
 ###### Editez le fichier .bashrc (tout se passe de nouveau dans qemu) :
 
 		vim.tiny .bashrc
 
-###### Ajoutez ces lignes à la suite de .bashrc:
+###### Ajoutez ces lignes à la suite de *.bashrc*:
 
 		export http_proxy="http://10.250.100.2:3128"
 
@@ -257,7 +257,7 @@ S'il est déjà lancé :
 		systemctl restart nginx
 
 
-Vérifiez que nginx fonctione, pour cela ouvrez un navigateur et allez sur localhost:8080 (sur votre ordinateur bien sûr, pas sur la clef, elle ne possède pas de navigateur), une page nginx devrait apparaître. Si ce n'est pas le cas, lancez cette commande, elle vous aidera à comprendre : 
+Vérifiez que nginx fonctione, pour cela ouvrez un navigateur et allez sur *localhost:8080* (sur votre ordinateur bien sûr, pas sur la clef, elle ne possède pas de navigateur), une page nginx devrait apparaître. Si ce n'est pas le cas, lancez cette commande, elle vous aidera à comprendre : 
 
 		systemctl status nginx
 
@@ -271,7 +271,7 @@ Si vous voyez cette page, bravo, vous avez correctement configuré le server sur
 
 Nous allons maintenant mettre en place l'application web. Vous pouvez reconstruire cette application web en utilisant steghide, mais vous pouvez ausi récuperer l'application que nous avons fait exprès pour cette utilisation ! 
 
-Les applications web lancées par nginx se trouvent pas défault dans le dossier, /var/www/html, nous allons donc y placer notre application.
+Les applications web lancées par nginx se trouvent pas défault dans le dossier, */var/www/html*, nous allons donc y placer notre application.
 
 ###### Allez dans le dossier html de nginx:
 
@@ -300,7 +300,7 @@ Il faut maintenant configurer php et nginx.
 
 		vim.tiny /etc/nginx/sites-available/default
 
-###### Modifiez le fichier pour qu'il ressemble exactement à celui-ci (vous trouverez aussi le fichier dans le dossier /tuto/ du git): 
+###### Modifiez le fichier pour qu'il ressemble exactement à celui-ci (vous trouverez aussi le fichier dans le dossier */tuto/* du git): 
 
 
 	##
@@ -426,11 +426,11 @@ Pour tester le fonctionnement du serveur sur le réseau, récuperez l'adresse ip
 
 		ipconfig
 
-Sur les ordinateurs de la salle de réseau de l'Université Claude Bernard Lyon 1 l'adresse doit être de la forme : 10.250.100.XXX, si ce n'est pas le cas, changez le cable ethernet de carte réseau (celle qui est la plus basse est la bonne).
+Sur les ordinateurs de la salle de réseau de l'Université Claude Bernard Lyon 1 l'adresse doit être de la forme : *10.250.100.XXX*, si ce n'est pas le cas, changez le cable ethernet de carte réseau (celle qui est la plus basse est la bonne).
 
 Démarrez maintenant une autre machine connecté sur le même réseau, 
 
-(si vous êtes dans la salle de réseau de l'UCBL refusez le login et verifiez l'adresse de l'autre machine (10.250.100.XXX):
+(si vous êtes dans la salle de réseau de l'UCBL refusez le login et verifiez l'adresse de l'autre machine (*10.250.100.XXX*):
 
 		ifconfig
 )
@@ -439,7 +439,7 @@ Ouvrez un navigateur et entrez l'adresse ip de l'ordinateur qui héberge la clef
 
 Si l'application se lance, bravo, le server fonctionne sur votre réseau ! 
 
-Pour afficher uniquement l'adresse sur laquelle se connecter, vous pouvez utiliser le script Start.sh : 
+Pour afficher uniquement l'adresse sur laquelle se connecter, vous pouvez utiliser le script *Start.sh* : 
 
 		./vat/www/html/Start.sh
 
@@ -447,7 +447,7 @@ Pour afficher uniquement l'adresse sur laquelle se connecter, vous pouvez utilis
 
 Cette étape est facultative mais vous avez peut être besoin que l'ordinateur affiche tout seul l'adresse sur laquelle se connecter sans avoir à appuyer sur quelque touche qu'il soit (ni même pour se connecter), dans ce cas continuez le tutoriel, vous serez satisfait ! 
 
-Pour cela nous avons déjà créé un script pour vous ! Il s'appelle Start.sh et est dans la racine du git, placez vous dans /var/www/html/ et testez le : 
+Pour cela nous avons déjà créé un script pour vous ! Il s'appelle *Start.sh* et est dans la racine du git, placez vous dans */var/www/html/* et testez le : 
 
 		./Start.sh
 
@@ -455,7 +455,7 @@ Il devrait afficher l'adresse à laquelle se connecter pour accéder à l'applic
 
 Nous allons maintenant configurer le système de la clef pour le lancer au démarage.
 
-Tout d'abord changez le script pour qu'il affiche l'ip sur tty1 seulement, vous pouvez utiliser le script Start_tty1.sh du git pour aller plus vite. 
+Tout d'abord changez le script pour qu'il affiche l'ip sur *tty1* seulement, vous pouvez utiliser le script *Start_tty1.sh* du git pour aller plus vite. 
 
 Nous allons utiliser crontab pour lancer le script au démarage et l'actualiser toutes les minutes.
 
@@ -475,7 +475,7 @@ Nous allons utiliser crontab pour lancer le script au démarage et l'actualiser 
 
 Cela permet de lancer le script au démarrage ainsi que toutes les minutes (au cas où l’adresse ip change)
 
-Il faut maintenant désactiver le service getty@tty1 afin que le système lance les services (nginx par exemple), affiche l’adresse ip ne demande pas de se connecter. 
+Il faut maintenant désactiver le service *getty@tty1* afin que le système lance les services (nginx par exemple), affiche l’adresse ip ne demande pas de se connecter. 
 
 		systemctl disable getty@tty1 
 
@@ -485,7 +485,7 @@ Vous pouvez tester cette nouvelle fonctionnalité en redémarant l'ordinateur :
 
 N'oubliez pas d'appuyer sur f12 pour booter sur la clef usb. 
 
-Si cela fonctionne, bravo, vous avez terminé le projet ! Si cette dernière étape ne fonctionne pas, ne vous inquiétez pas vous pouvez réactiver tty1 : 
+Si cela fonctionne, bravo, vous avez terminé le projet ! Si cette dernière étape ne fonctionne pas, ne vous inquiétez pas vous pouvez réactiver *tty1* : 
 
 		systemctl enable getty@tty1 
 
@@ -498,7 +498,7 @@ et lancer le script au démarage manuellement :
 
 ## Limites <a name="limites"></a>
 
-Notre projet est vulnérable au injection de commande shell, ce qui est extremement dangereux d'autant plus qu'il s'exécute en tant que root ! Pour remédier à cela nous aurions pu essayer de bloquer les injections dans le php et également avoir une gestion plus fine des permissions utilisateur, comme en executant nos script en tant que www/data par exemple.
+Notre projet est vulnérable au injection de commande shell, ce qui est extremement dangereux d'autant plus qu'il s'exécute en tant que root ! Pour remédier à cela nous aurions pu essayer de bloquer les injections dans le php et également avoir une gestion plus fine des permissions utilisateur, comme en executant nos script en tant que *www/data* par exemple.
 
 Nous aurions aussi pu réduire l'empreinte mémoire du système de la clef usb afin de permettre d'utiliser une clef encore plus petite, voire même permettre de déplacer le système sur une machine autonome avec une très petite mémoire.
 
