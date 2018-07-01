@@ -1,6 +1,6 @@
 # StegoBox 
 Réalisé par : Guilhem Marion, Boubacar Diallo et Pierre-Louis Despaigne.
-
+Ceci est le tuto accompagnant le projet [StegoBox](https://github.com.GuiMarion/StegoBox) présent sur GitHub.
 
 Ce projet présente comment utiliser les méthodes de programmation embarquée pour créer une clef usb bootable contenant un OS minimal ainsi qu'une application web permettant de faire de la stéganographie. En suivant se tutoriel vous pourrez mettre en place ce système qui, en démarrant, affichera une adresse ip sur laquelle se connecter pour acceder à l'application de stéganographie. 
 
@@ -33,78 +33,80 @@ Tout d'abord il faut vous installer les paquets necessaires sur votre ordinateur
 Vous allez maintenant formatez la clef et y installer debian, placer dans un emplacement de votre ordinateur adequat pour effectuer ces opérations.
 
 
-Pour creer une répertoire de travail:
+###### Pour creer une répertoire de travail:
 
 		mkdir work
 
-Entrez dans le répertoire de travail:
+###### Entrez dans le répertoire de travail:
 
 		cd work
 
-Inserez une cle usb et recherchez sa partition:
+###### Inserez une cle usb et recherchez sa partition:
 
 		fdisk -l
 
 Elle devrait correspondre à quelque chose comme /dev/sdbX, dans notre cas la partition est /dev/sdb1, le numéro peut changer selon votre configuration, si vous n'êtes pas sûrs, debranchez la clef lancez la commande, rebranchez la clef et refaites la commande, vous verrez un nouveau périphérique, c'est la bonne clef usb !
 
-Formatez la cle:
+###### Formatez la cle:
 
 		mkfs.ext4 /dev/sdb1
 
-Creez un point de montage pour la cle:
+###### Creez un point de montage pour la cle:
 
 		mkdir fs
 
-Montez la partition dans ce dossier :
+###### Montez la partition dans ce dossier :
 
 		mount /dev/sdb1 fs
 
-Lancez debootstrap et téléchargez une image debian:
+###### Lancez debootstrap et téléchargez une image debian:
 
 		debootstrap --arch amd64 jessie fs http://ftp.fr.debian.org/debian
 
-Liez le dossier /proc:
+###### Liez le dossier /proc:
 
 		mount -t proc none fs/proc
 
-Liez le dossier /dev:
+###### Liez le dossier /dev:
 
 		mount -o bind /dev fs/dev
 
-Passez en mode chroot:
+###### Passez en mode chroot:
 
 		chroot fs
+
+### Configuration de la clef
 
 Vous êtes desormais en train de configurer la clef usb, tout ce que vous ferez se fera sur la clef usb et non sur vorez OS, c'est l'utilité de chroot.
 
 Il vous faut creer un mot de passe, choisissez, bien entendu, celui qui vous plaira, pour cela remplacez <mdp> par votre mot de passe. Pour la suite du tutoriel nous utilisera moi comme mot de passe, mais il faut vaudra utiliser le votre. 
 
-Creez un mot de passe root :
+###### Creez un mot de passe root :
 
 		passwd <mdp>
 
-Effectuez les mise-à-jour:
+###### Effectuez les mise-à-jour:
 
 		apt-get update
 
-Installez un noyau:
+###### Installez un noyau:
 
 		apt-get install linux-image-amd64
 
-Recuperez l'UUID de la clé USB:
+###### Recuperez l'UUID de la clé USB:
 
 		blkid (c0b524f4-5c21-423f-b124-00991a5c50a2)
 
-Editez le fichier /etc/fstab:
+###### Editez le fichier /etc/fstab:
 
 		vim.tiny /etc/fstab
 
-Ajoutez les lignes suivantes a ce fichier:
+###### Ajoutez les lignes suivantes a ce fichier:
 
 		proc /proc proc defaults
 		UUID=xxxxxxxxxxxxx / ext4 errors=remount-ro 0 1
 
-Editez le fichier hostname:
+###### Editez le fichier hostname:
 
 		echo "debian-usb" 
 		/etc/hostname
@@ -113,11 +115,11 @@ Le fichier ne doit contenir qu'une seul ligne avec ecrit "debian-usb", vous pouv
 
 		nano /etc/hostname (ctrl + x pour quitter l'éditeur)
 
-Editez le fichier network/interfaces:
+###### Editez le fichier network/interfaces:
 
 		vim.tiny /etc/network/interfaces
 
-Commantez toutes les lignes et ajoutez les lignes suivantes:
+###### Commantez toutes les lignes et ajoutez les lignes suivantes:
 
 		auto lo
 		iface lo inet loopback
@@ -125,44 +127,44 @@ Commantez toutes les lignes et ajoutez les lignes suivantes:
 		auto eth0
 		iface eth0 inet dhcp
 
-Installez un clavier azerty:
+###### Installez un clavier azerty:
 
 		apt-get install console-data
 
-Installez grub:
+###### Installez grub:
 
 		apt-get install grub2
 
 Vous avez désormais configuré votre clef usb avec debian. Nous allons desormais demonter la clef et nous assurer que tout fonctionne normalement. 
 
-Quittez le chroot:
+###### Quittez le chroot:
 
 		exit
 
-Demontez le dev:
+###### Demontez le dev:
 
 		umount fs/dev
 
-Demontez le proc:
+###### Demontez le proc:
 
 		umount fs/proc
 
-Demontez la cle:
+###### Demontez la cle:
 
 		umount fs
 
 ## Test et configuration avec qemu
 
-Bootez sur la clef avec qemu:
+###### Bootez sur la clef avec qemu:
 
 		qemu-system-x86_64 /dev/sdb
 
-Connectez vous en tant que root sur qemu:
+###### Connectez vous en tant que root sur qemu:
 
 		root
 		<mdp> (n'oubliez pas de mettre ici votre propre mot de passe que vous avez choisi plus tôt)
 
-Assurez vous d'être à la racine:
+###### Assurez vous d'être à la racine:
 
 		cd
 
@@ -175,17 +177,17 @@ Récuperez le proxy servant à se connecter à internet dans votre configuration
 
 Pour la salle réseau de l'Université Claude Bernard Lyon 1 le proxy est : http://10.250.100.2:3128, il sera certainement different pour votre configuration.
 
-Editez le fichier .bashrc (tout se passe de nouveau dans qemu) :
+###### Editez le fichier .bashrc (tout se passe de nouveau dans qemu) :
 
 		vim.tiny .bashrc
 
-Ajoutez ces lignes à la suite de .bashrc:
+###### Ajoutez ces lignes à la suite de .bashrc:
 
 		export http_proxy="http://10.250.100.2:3128"
 
 		export https_proxy="http://10.250.100.2:3128"
 
-Quitez qemu:
+###### Quitez qemu:
 
 		shutdown -h now
 
@@ -194,45 +196,45 @@ Quitez qemu:
 
 On va maintenant lancer qemu avec redirection de port afin d'avoir accès à internet, faire les mises à jours, et mettre en place le server.
 
-Relancez qemu avec une redirection de port:
+###### Relancez qemu avec une redirection de port:
 
 		qemu-system-x86_64 /dev/sdb -redir tcp:8080::80
 
-Connectez vous en tant que root sur qemu:
+###### Connectez vous en tant que root sur qemu:
 
 		root
 
 		<mdp> (mettre votre propre mot de passe ici)
 
-Faîtes les mise-à-jour:
+###### Faites les mise-à-jour:
 
 		apt-get update
 
 Nginx est un est logiciel libre de server web, nous nous en servirons pour faire fonctionner le server sur la clef. 
 
-Installez nginx:
+###### Installez nginx:
 
 		apt-get install nginx
 
 Php est une technologie web permettant de faire des pages webs dynamiques, nous nous en servirons pour l'application web qu'hebergera la clef.
 
-Installez php:
+###### Installez php:
 
 		apt-get install php5-fpm
 
 Git est une technologie de versionnement, vous vous en servirez pour télécharger l'application web que nous avons faite.
 
-Installez git:
+###### Installez git:
 
 		apt-get install git
 
-Stehide est un logiciel libre dont nous nous servons pour faire la stéganographie.
+Steghide est un logiciel libre dont nous nous servons pour faire la stéganographie.
 
-Installez steghide:
+###### Installez steghide:
 
 		apt-get install steghide
 
-Lancez nginx :
+###### Lancez nginx :
 
 		systemctl start nginx
 
@@ -255,24 +257,22 @@ Nous allons maintenant mettre en place l'application web. Vous pouvez reconstrui
 
 Les applications web lancées par nginx se trouvent pas défault dans le dossier, /var/www/html, nous allons donc y placer notre application.
 
-Allez dans le dossier html de nginx:
+###### Allez dans le dossier html de nginx:
 
 		cd /var/www/html
 
-Supprimez les fichiers qui s'y trouve (attention avec cette commande ! Verifiez bien que vous vous trouvez dans le bon dossier):
+###### Supprimez les fichiers qui s'y trouve (attention avec cette commande ! Verifiez bien que vous vous trouvez dans le bon dossier):
 
 		rm -f *
 
-clonez le repo git du projet:
+###### Clonez le repo git du projet:
 
 		git clone https://github.com/GuiMarion/StegoBox.git
 
-Deplacez tout les fichiers dans /var/www/html:
+###### Deplacez tout les fichiers dans /var/www/html:
 
 		cd StegoBox
-
 		mv * ..
-
 		cd ..
 
 
@@ -280,11 +280,11 @@ Deplacez tout les fichiers dans /var/www/html:
 
 Il faut maintenant configurer php et nginx.
 
-Ouvez le fichier de configuration de nginx:
+###### Ouvez le fichier de configuration de nginx:
 
 		vim.tiny /etc/nginx/sites-available/default
 
-Modifiez le fichier pour qu'il ressemble exactement à celui-ci (vous trouverez aussi le fichier dans le dossier /tuto/ du git): 
+###### Modifiez le fichier pour qu'il ressemble exactement à celui-ci (vous trouverez aussi le fichier dans le dossier /tuto/ du git): 
 
 
 	##
@@ -367,7 +367,7 @@ Modifiez le fichier pour qu'il ressemble exactement à celui-ci (vous trouverez 
 	#}
 	///////////////////////
 
-Ensuite relancez nginx:
+###### Ensuite relancez nginx:
 
 		service nginx restart
 
@@ -390,7 +390,7 @@ L'application permet d'ajouter des images, ajouter un message protégé par un m
 - Enfin vous pouvez afficher les image sur la page View
 
 
-Pour quitter qemu : 
+###### Pour quitter qemu : 
 
 		shutdown -h now
 
@@ -400,7 +400,7 @@ Vous pouvez aussi utiliser cette clef sans passer par qemu en bottant directemen
 
 Pour booter sur la clef, branchez la à l'ordinateur, puis allumez l'ordinateur en appuyant (quelque peu compulsivement) sur f12 (la touche peut changer selon le modèle de votre ordinateur, elle est communément affichée au démarrage)
 
-Pour obtenir une addresse ipv4
+###### Pour obtenir une addresse ipv4
 
 		dhclient -4
 
@@ -441,16 +441,16 @@ Tout d'abord changez le script pour qu'il affiche l'ip sur tty1 seulement, vous 
 
 Nous allons utiliser crontab pour lancer le script au démarage et l'actualiser toutes les minutes.
 
-Pour cela ouvez le fichier de config de crontab : 
+###### Pour cela ouvez le fichier de config de crontab : 
 
 		crontab -e 
 
-Et ajoutez à la fin du fichier 
+###### Et ajoutez à la fin du fichier 
 
 	@reboot path_to_script
 	* * * * * path_to_script
 
-Dans notre cas, 
+###### Dans notre cas, 
 
 	@reboot /var/www/html/Start_tty1.sh
 	* * * * * Start_tty1.sh
