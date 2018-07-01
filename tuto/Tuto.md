@@ -19,7 +19,7 @@ La démonstration s'appuie sur le réseau de la salle de réseau de l'universit�
 	- [Installation de l'application](#installapp)
 	- [Configuration de php et nginx](#php)
 	- [Utilisation de l'application](#utilisation)
-5. [Utilisation en dehords de qemu](#stand)
+5. [Utilisation en dehors de qemu](#stand)
 	- [Affichage de l'adresse ip au démarage](#ip)
 7. [Limites du projet](#limites)
 
@@ -500,4 +500,6 @@ et lancer le script au démarage manuellement :
 ## Limites <a name="limites"></a>
 
 Notre projet est vulnérable au injection de commande shell, ce qui est extremement dangereux d'autant plus que s'execute en tant que root ! Pour remedier à cela nous aurions pu essayer de bloquer les injection dans le php et également avoir une gestion plus fine des permissions utilisateur, comme en executant nos script en tant que www/data par exemple.
+
+Nous aurions aussi pu reduire l'empreinte mémoire du système pour la clef usb afin de permettre d'utiliser une clef encore plus petite, voire même permettre de déplacer le système sur une machine autonome avec une très petite mémoire.
 
