@@ -1,6 +1,5 @@
 # StegoBox 
-
-Ce projet a été réalisé par : Guilhem Marion, Boubacar Diallo et Pierre-Louis Despaigne.
+Réalisé par : Guilhem Marion, Boubacar Diallo et Pierre-Louis Despaigne sous licence MIT.
 
 
 Ce projet présente comment utiliser les méthodes de programmation embarquée pour créer une clef usb bootable contenant un OS minimal ainsi qu'une application web permettant de faire de la stéganographie. En suivant se tutoriel vous pourrez mettre en place ce système qui, en démarrant, affichera une adresse ip sur laquelle se connecter pour acceder à l'application de stéganographie. 
