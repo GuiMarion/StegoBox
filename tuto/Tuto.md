@@ -11,10 +11,21 @@ La démonstration s'appuie sur le réseau de la salle de réseau de l'universit�
 ## Étapes
 
 1. [Préparation de la clef](#prep)
+	- [Installation de la clef](#install)
 	- [Configuration de la clef](#config)
-2. sdf
+2. [Test et configuration avec qemu](#qemu)
+3. [Mise en place du server](#server)
+4. [Mise en place de l'application web](#app)
+	- [Installation de l'application](#installapp)
+	- [Configuration de php et nginx](#php)
+	- [Utilisation de l'application](#utilisation)
+5. [Utilisation en dehords de qemu](#stand)
+	- [Affichage de l'adresse ip au démarage](#ip)
+7. [Limites du projet](#limites)
 
 ## Préparation de la clef usb <a name="prep"></a>
+
+### Installation de la clef <a name="install"></a>
 
 Tout d'abord il faut vous installer les paquets necessaires sur votre ordinateur : 
 
@@ -159,7 +170,7 @@ Vous avez désormais configuré votre clef usb avec debian. Nous allons desormai
 
 		umount fs
 
-## Test et configuration avec qemu
+## Test et configuration avec qemu <a name="qemu"></a>
 
 ###### Bootez sur la clef avec qemu:
 
@@ -198,7 +209,7 @@ Pour la salle réseau de l'Université Claude Bernard Lyon 1 le proxy est : http
 		shutdown -h now
 
 
-## Mise en place du server
+## Mise en place du server <a name="server"></a>
 
 On va maintenant lancer qemu avec redirection de port afin d'avoir accès à internet, faire les mises à jours, et mettre en place le server.
 
@@ -257,7 +268,9 @@ Verifiez bien que nginx est installé et lancé.
 
 Si vous voyez cette page, bravo, vous avez correctement configuré le server sur la clef usb ! 
 
-## Miese en place de l'application web
+## Miese en place de l'application web <a name="app"></a>
+
+### Installation de l'application <a name="installapp"></a>
 
 Nous allons maintenant mettre en place l'application web. Vous pouvez reconstruire cette application web en utilisant steghide, mais vous pouvez ausi récuperer l'application que nous avons fait exprès pour cette utilisation ! 
 
@@ -282,7 +295,7 @@ Les applications web lancées par nginx se trouvent pas défault dans le dossier
 		cd ..
 
 
-### Configuration de php et nginx
+### Configuration de php et nginx <a name="php"></a>
 
 Il faut maintenant configurer php et nginx.
 
@@ -382,7 +395,7 @@ le site *Stego box* devrait s'afficher correctement
 
 Si c'est le cas, bravo ! Vous avez bien configuré l'application.
 
-### Utilisation de l'application
+### Utilisation de l'application <a name="utilisation"></a>
 
 L'application permet d'ajouter des images, ajouter un message protégé par un mot de passe à l'interieur d'une image avec de la stéganographie, ainsi que récuperer un message à partir d'une image et d'un mot de passe. 
 
@@ -400,7 +413,7 @@ L'application permet d'ajouter des images, ajouter un message protégé par un m
 
 		shutdown -h now
 
-## Utilisation du server en dehors de qemu
+## Utilisation du server en dehors de qemu <a name="stand"></a>
 
 Vous pouvez aussi utiliser cette clef sans passer par qemu en bottant directement sur un ordinateur, pour pouvoir utiliser l'application il faura donc y acceder depuis un ordinateur connecté au même réseau que l'ordinateur qui aura lancé la clef. 
 
@@ -431,7 +444,7 @@ Pour afficher uniquement l'adresse sur laquelle se connecter, vous pouvez utilis
 
 		./vat/www/html/Start.sh
 
-### Afficher l'adresse ip au démarrage
+### Afficher l'adresse ip au démarrage <a name="ip"></a>
 
 Cette étape est facultative mais vous avez peut être besoin que l'ordinateur affiche tout seul l'adresse sur laquelle se connecter sans avoir à appuyer sur quelque touche qu'il soit (ni même pour se connecter), dans ce cas continuez le tutoriel, vous serez satisfait ! 
 
@@ -484,7 +497,7 @@ et lancer le script au démarage manuellement :
 
 -----------------------------------------------------
 
-## Limites
+## Limites <a name="limites"></a>
 
 Notre projet est vulnérable au injection de commande shell, ce qui est extremement dangereux d'autant plus que s'execute en tant que root ! Pour remedier à cela nous aurions pu essayer de bloquer les injection dans le php et également avoir une gestion plus fine des permissions utilisateur, comme en executant nos script en tant que www/data par exemple.
 
