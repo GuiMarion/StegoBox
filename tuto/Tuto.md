@@ -11,166 +11,234 @@ La démonstration s'appuie sur le réseau de la salle de réseau de l'universit�
 Tout d'abord il faut vous installer les paquets necessaires sur votre ordinateur : 
 
 
-### Passez root:
-> su
+Passez root:
+
+		su
 
 Effectuez les mise à jour:
-> apt-get update
+
+		apt-get update
 
 Installez debootstrap:
-> apt-get install debootstrap
+
+		apt-get install debootstrap
 
 Installez qemu:
-> apt-get install qemu
+
+		apt-get install qemu
 
 
 Vous allez maintenant formatez la clef et y installer debian, placer dans un emplacement de votre ordinateur adequat pour effectuer ces opérations.
 
 
 Pour creer une répertoire de travail:
-> mkdir work
+
+		mkdir work
 
 Entrez dans le répertoire de travail:
-> cd work
+
+		cd work
 
 Inserez une cle usb et recherchez sa partition:
-> fdisk -l
 
-formatez la cle:
-> mkfs.ext4 /dev/sdb1
+		fdisk -l
 
-creer un point de montage pour la cle:
-> mkdir fs
+Elle devrait correspondre à quelque chose comme /dev/sdbX, dans notre cas la partition est /dev/sdb1, le numéro peut changer selon votre configuration, si vous n'êtes pas sûrs, debranchez la clef lancez la commande, rebranchez la clef et refaites la commande, vous verrez un nouveau périphérique, c'est la bonne clef usb !
 
-montez la partition:
-> mount /dev/sdb1 fs
+Formatez la cle:
 
-lancez debootstrap et telechargez une image debian:
-> debootstrap --arch amd64 jessie fs http://ftp.fr.debian.org/debian
+		mkfs.ext4 /dev/sdb1
 
-lier le dossier /proc:
-> mount -t proc none fs/proc
+Creez un point de montage pour la cle:
 
-lier le dossier /dev:
-> mount -o bind /dev fs/dev
+		mkdir fs
 
-passez en mode chroot:
-> chroot fs
+Montez la partition dans ce dossier :
 
-creez un mot de passe root (moi):
-> passwd
+		mount /dev/sdb1 fs
 
-effectuez les mise-à-jour:
-> apt-get update
+Lancez debootstrap et téléchargez une image debian:
 
-installez un noyau:
-> apt-get install linux-image-amd64
+		debootstrap --arch amd64 jessie fs http://ftp.fr.debian.org/debian
 
-recuperez l'UUID de la clé USB:
-> blkid
+Liez le dossier /proc:
+
+		mount -t proc none fs/proc
+
+Liez le dossier /dev:
+
+		mount -o bind /dev fs/dev
+
+Passez en mode chroot:
+
+		chroot fs
+
+Vous êtes desormais en train de configurer la clef usb, tout ce que vous ferez se fera sur la clef usb et non sur vorez OS, c'est l'utilité de chroot.
+
+Il vous faut creer un mot de passe, choisissez, bien entendu, celui qui vous plaira, pour cela remplacez <mdp
+		par votre mot de passe. Pour la suite du tutoriel nous utilisera moi comme mot de passe, mais il faut vaudra utiliser le votre. 
+
+Creez un mot de passe root :
+
+		passwd <mdp>
+
+Effectuez les mise-à-jour:
+
+		apt-get update
+
+Installez un noyau:
+
+		apt-get install linux-image-amd64
+
+Recuperez l'UUID de la clé USB:
+
+		blkid
 (c0b524f4-5c21-423f-b124-00991a5c50a2)
 
-editez le fichier /etc/fstab:
-> vim.tiny /etc/fstab
+Editez le fichier /etc/fstab:
 
-ajoutez les lignes suivantes a ce fichier:
-> proc /proc proc defaults
-> UUID=xxxxxxxxxxxxx / ext4 errors=remount-ro 0 1
+		vim.tiny /etc/fstab
 
-editez le fichier hostname:
-> echo "debian-usb" > /etc/hostname
-le fichier ne doit contenir qu'une seul ligne avec ecrit "debian-usb"
+Ajoutez les lignes suivantes a ce fichier:
 
-editez le fichier network/interfaces:
-> vim.tiny /etc/network/interfaces
+		proc /proc proc defaults
+		UUID=xxxxxxxxxxxxx / ext4 errors=remount-ro 0 1
+
+Editez le fichier hostname:
+
+		echo "debian-usb" 
+		/etc/hostname
+
+Le fichier ne doit contenir qu'une seul ligne avec ecrit "debian-usb", vous pouvez le vérifier avec la commande suivante : 
+
+		nano /etc/hostname (ctrl + x pour quitter l'éditeur)
+
+Editez le fichier network/interfaces:
+
+		vim.tiny /etc/network/interfaces
 
 commantez toutes les lignes et ajoutez les lignes suivantes:
-> auto lo
-> iface lo inet loopback
-> 
-> allow-hotplug eth0
-> auto eth0
-> iface eth0 inet dhcp
+
+		auto lo
+
+		iface lo inet loopback
+
+		
+
+		allow-hotplug eth0
+
+		auto eth0
+
+		iface eth0 inet dhcp
 
 installez un clavier azerty:
-> apt-get install console-data
+
+		apt-get install console-data
 
 installez grub:
-> apt-get install grub2
+
+		apt-get install grub2
 
 quittez le chroot:
-> exit
+
+		exit
 
 demontez le dev:
-> umount fs/dev
+
+		umount fs/dev
 
 demontez le proc:
-> umount fs/proc
+
+		umount fs/proc
 
 demontez la cle:
-> umount fs
+
+		umount fs
 
 testez avec qemu:
-> qemu-system-x86_64 /dev/sdb
+
+		qemu-system-x86_64 /dev/sdb
 
 connectez vous en tant que root sur qemu:
-> root
-> moi
+
+		root
+
+		moi
 
 assurez vous d'etre dans home:
-> cd
+
+		cd
 
 editez le fichier .bashrc:
-> vim.tiny .bashrc
+
+		vim.tiny .bashrc
 
 (dans la salle info)
 ajouter ces lignes à la suite de .bashrc:
-> expor http_proxy="http://10.250.100.2:3128"
-> expor https_proxy="http://10.250.100.2:3128"
+
+		expor http_proxy="http://10.250.100.2:3128"
+
+		expor https_proxy="http://10.250.100.2:3128"
 
 quitez qemu:
-> shutdown -h now
+
+		shutdown -h now
 
 relancez qemu avec une redirection de port:
-> qemu-system-x86_64 /dev/sdb -redir tcp:8080::80
+
+		qemu-system-x86_64 /dev/sdb -redir tcp:8080::80
 
 connectez vous en tant que root sur qemu:
-> root
-> moi
+
+		root
+
+		moi
 
 faire les mise-à-jour:
-> apt-get update
+
+		apt-get update
 
 installez nginx:
-> apt-get install nginx
+
+		apt-get install nginx
 
 installez php:
-> apt-get install php5-fpm
+
+		apt-get install php5-fpm
 
 installez git:
-> apt-get install git
+
+		apt-get install git
 
 installez steghide:
-> apt-get install steghide
+
+		apt-get install steghide
 
 verifiez que nginx fonctione, sur la machine hote ouvrez un navigateur et tapez localhost:8080, une page 
 
 allez dans le dossier html de nginx:
-> cd /var/www/html
+
+		cd /var/www/html
 
 supprimez les fichiers qui s'y trouve:
-> rm *
+
+		rm *
 
 clonez le repo git du projet:
-> git clone https://github.com/GuiMarion/StegoBox.git
+
+		git clone https://github.com/GuiMarion/StegoBox.git
 
 deplacez tout les fichiers dans /var/www/html:
-> cd StegoBox
-> mv * ..
-> cd ..
+
+		cd StegoBox
+
+		mv * ..
+
+		cd ..
 
 configurer php pour nginx:
-> vim.tiny /etc/nginx/sites-available/default
+
+		vim.tiny /etc/nginx/sites-available/default
 
 le fichier doit ressembler exactement au fichier ci-dessous
 ///////////////////////
@@ -257,7 +325,8 @@ server {
 ///////////////////////
 
 ensuite relancez nginx:
-> service nginx restart
+
+		service nginx restart
 
 puis sur la machine hote raffrechissez la page localhost:8080,
 le site Stego box devrait s'afficher correctement
@@ -272,7 +341,8 @@ puis vous pouvez extraire ce message avec la page Extract
 enfin vous pouvez afficher les image sur la page View
 
 quand vous avez finis de tester eteindre qemu:
-> shutdown -h now
+
+		shutdown -h now
 
 ---------------------------------------------------
 
@@ -281,15 +351,18 @@ Vous pouvez maintenant utiliser votre clé sans qemu:
 bootez sur la clez (f12)
 
 obtenir une addresse ipv4
-> dhclient -4
+
+		dhclient -4
 
 veriffier l'adresse (10.250.100.XXX)(A)
-> ifconfig
+
+		ifconfig
 
 demarrez une autre machine
 refuser le login
 veriffier l'adresse de l'autre machine (10.250.100.XXX)
-> ifconfig
+
+		ifconfig
 ouvrir un navigateur
 entrez l'adresse ip (A) dans la barre du navigateur
 
@@ -297,7 +370,8 @@ Pour Afficher l’ip au démarrage :
 
 Rediriger l’affichage du script (script sur le git) sur /dev/tty1
 
-Echo ip >> /dev/tty1
+Echo ip >
+		/dev/tty1
 
 Faire en sorte que le script se lance au démarage et s’actualise : 
 
