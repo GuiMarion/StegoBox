@@ -75,8 +75,7 @@ Passez en mode chroot:
 
 Vous êtes desormais en train de configurer la clef usb, tout ce que vous ferez se fera sur la clef usb et non sur vorez OS, c'est l'utilité de chroot.
 
-Il vous faut creer un mot de passe, choisissez, bien entendu, celui qui vous plaira, pour cela remplacez <mdp
-		par votre mot de passe. Pour la suite du tutoriel nous utilisera moi comme mot de passe, mais il faut vaudra utiliser le votre. 
+Il vous faut creer un mot de passe, choisissez, bien entendu, celui qui vous plaira, pour cela remplacez <mdp> par votre mot de passe. Pour la suite du tutoriel nous utilisera moi comme mot de passe, mais il faut vaudra utiliser le votre. 
 
 Creez un mot de passe root :
 
@@ -92,8 +91,7 @@ Installez un noyau:
 
 Recuperez l'UUID de la clé USB:
 
-		blkid
-(c0b524f4-5c21-423f-b124-00991a5c50a2)
+		blkid (c0b524f4-5c21-423f-b124-00991a5c50a2)
 
 Editez le fichier /etc/fstab:
 
@@ -117,118 +115,157 @@ Editez le fichier network/interfaces:
 
 		vim.tiny /etc/network/interfaces
 
-commantez toutes les lignes et ajoutez les lignes suivantes:
+Commantez toutes les lignes et ajoutez les lignes suivantes:
 
 		auto lo
-
 		iface lo inet loopback
-
-		
-
 		allow-hotplug eth0
-
 		auto eth0
-
 		iface eth0 inet dhcp
 
-installez un clavier azerty:
+Installez un clavier azerty:
 
 		apt-get install console-data
 
-installez grub:
+Installez grub:
 
 		apt-get install grub2
 
-quittez le chroot:
+Vous avez désormais configuré votre clef usb avec debian. Nous allons desormais demonter la clef et nous assurer que tout fonctionne normalement. 
+
+Quittez le chroot:
 
 		exit
 
-demontez le dev:
+Demontez le dev:
 
 		umount fs/dev
 
-demontez le proc:
+Demontez le proc:
 
 		umount fs/proc
 
-demontez la cle:
+Demontez la cle:
 
 		umount fs
 
-testez avec qemu:
+## Test et configuration avec qemu
+
+Bootez sur la clef avec qemu:
 
 		qemu-system-x86_64 /dev/sdb
 
-connectez vous en tant que root sur qemu:
+Connectez vous en tant que root sur qemu:
 
 		root
+		<mdp> (n'oubliez pas de mettre ici votre propre mot de passe que vous avez choisi plus tôt)
 
-		moi
-
-assurez vous d'etre dans home:
+Assurez vous d'être à la racine:
 
 		cd
 
-editez le fichier .bashrc:
+Nous allons maintenant configurer la connexion internet, si vous avez une configuration domestique cela devrait fonctionner sans les étapes suivantes. 
+
+Récuperez le proxy servant à se connecter à internet dans votre configuration réseau, pour ce faire lancez cette commande sur votre ordinateur (pas dans qemu ! ): 
+
+		ifconfig 
+
+
+Pour la salle réseau de l'Université Claude Bernard Lyon 1 le proxy est : http://10.250.100.2:3128, il sera certainement different pour votre configuration.
+
+Editez le fichier .bashrc (tout se passe de nouveau dans qemu) :
 
 		vim.tiny .bashrc
 
-(dans la salle info)
-ajouter ces lignes à la suite de .bashrc:
+Ajoutez ces lignes à la suite de .bashrc:
 
-		expor http_proxy="http://10.250.100.2:3128"
+		export http_proxy="http://10.250.100.2:3128"
 
-		expor https_proxy="http://10.250.100.2:3128"
+		export https_proxy="http://10.250.100.2:3128"
 
-quitez qemu:
+Quitez qemu:
 
 		shutdown -h now
 
-relancez qemu avec une redirection de port:
+
+## Mise en place du server
+
+On va maintenant lancer qemu avec redirection de port afin d'avoir accès à internet, faire les mises à jours, et mettre en place le server.
+
+Relancez qemu avec une redirection de port:
 
 		qemu-system-x86_64 /dev/sdb -redir tcp:8080::80
 
-connectez vous en tant que root sur qemu:
+Connectez vous en tant que root sur qemu:
 
 		root
 
-		moi
+		<mdp> (mettre votre propre mot de passe ici)
 
-faire les mise-à-jour:
+Faîtes les mise-à-jour:
 
 		apt-get update
 
-installez nginx:
+Nginx est un est logiciel libre de server web, nous nous en servirons pour faire fonctionner le server sur la clef. 
+
+Installez nginx:
 
 		apt-get install nginx
 
-installez php:
+Php est une technologie web permettant de faire des pages webs dynamiques, nous nous en servirons pour l'application web qu'hebergera la clef.
+
+Installez php:
 
 		apt-get install php5-fpm
 
-installez git:
+Git est une technologie de versionnement, vous vous en servirez pour télécharger l'application web que nous avons faite.
+
+Installez git:
 
 		apt-get install git
 
-installez steghide:
+Stehide est un logiciel libre dont nous nous servons pour faire la stéganographie.
+
+Installez steghide:
 
 		apt-get install steghide
 
-verifiez que nginx fonctione, sur la machine hote ouvrez un navigateur et tapez localhost:8080, une page 
+Lancez nginx :
 
-allez dans le dossier html de nginx:
+		systemctl start nginx
+
+S'il est déjà lancé : 
+
+		systemctl restart nginx
+
+
+Verifiez que nginx fonctione, pour cela ouvrez un nagigateur et aller sur localhost:8080 (sur votr ordinateur bien sur, pas sur la clef, elle ne possède pas de navigateur), une page nginx devrait apparaître. Si ce n'est pas le cas, lancez cette commande, elle vous aidera à comprendre : 
+
+		systemctl status nginx
+
+Verifiez bien que nginx est installé et lancé.
+
+Si vous voyez cette page, bravo, vous avez correctement configuré le server sur la clef usb ! 
+
+## Miese en place de l'application web
+
+Nous allons maintenant mettre en place l'application web. Vous pouvez reconstruire cette application web en utilisant steghide, mais vous pouvez ausi récuperer l'application que nous avons fait exprès pour cette utilisation ! 
+
+Les applications web lancées par nginx se trouvent pas défault dans le dossier, /var/www/html, nous allons donc y placer notre application.
+
+Allez dans le dossier html de nginx:
 
 		cd /var/www/html
 
-supprimez les fichiers qui s'y trouve:
+Supprimez les fichiers qui s'y trouve (attention avec cette commande ! Verifiez bien que vous vous trouvez dans le bon dossier):
 
-		rm *
+		rm -f *
 
 clonez le repo git du projet:
 
 		git clone https://github.com/GuiMarion/StegoBox.git
 
-deplacez tout les fichiers dans /var/www/html:
+Deplacez tout les fichiers dans /var/www/html:
 
 		cd StegoBox
 
@@ -236,95 +273,99 @@ deplacez tout les fichiers dans /var/www/html:
 
 		cd ..
 
-configurer php pour nginx:
+
+### Configuration de php et nginx
+
+Il faut maintenant configurer php et nginx.
+
+Ouvez le fichier de configuration de nginx:
 
 		vim.tiny /etc/nginx/sites-available/default
 
-le fichier doit ressembler exactement au fichier ci-dessous
-///////////////////////
-##
-# You should look at the following URL's in order to grasp a solid understanding
-# of Nginx configuration files in order to fully unleash the power of Nginx.
-# http://wiki.nginx.org/Pitfalls
-# http://wiki.nginx.org/QuickStart
-# http://wiki.nginx.org/Configuration
-#
-# Generally, you will want to move this file somewhere, and start with a clean
-# file but keep this around for reference. Or just disable in sites-enabled.
-#
-# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
-##
+Modifiez le fichier pour qu'il ressemble exactement à celui-ci : 
 
-# Default server configuration
-#
-server {
+	///////////////////////
+	##
+	# You should look at the following URL's in order to grasp a solid understanding
+	# of Nginx configuration files in order to fully unleash the power of Nginx.
+	# http://wiki.nginx.org/Pitfalls
+	# http://wiki.nginx.org/QuickStart
+	# http://wiki.nginx.org/Configuration
+	#
+	# Generally, you will want to move this file somewhere, and start with a clean
+	# file but keep this around for reference. Or just disable in sites-enabled.
+	#
+	# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+	##
+	# Default server configuration
+	#
+	server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
+		# SSL configuration
+		#
+		# listen 443 ssl default_server;
+		# listen [::]:443 ssl default_server;
+		#
+		# Self signed certs generated by the ssl-cert package
+		# Don't use them in a production server!
+		#
+		# include snippets/snakeoil.conf;
 
-	# SSL configuration
-	#
-	# listen 443 ssl default_server;
-	# listen [::]:443 ssl default_server;
-	#
-	# Self signed certs generated by the ssl-cert package
-	# Don't use them in a production server!
-	#
-	# include snippets/snakeoil.conf;
+		root /var/www/html;
 
-	root /var/www/html;
+		# Add index.php to the list if you are using PHP
+		index index.php index.html index.htm index.nginx-debian.html;
 
-	# Add index.php to the list if you are using PHP
-	index index.php index.html index.htm index.nginx-debian.html;
+		server_name _;
 
-	server_name _;
+		location / {
+			# First attempt to serve request as file, then
+			# as directory, then fall back to displaying a 404.
+			try_files $uri $uri/ =404;
+		}
 
-	location / {
-		# First attempt to serve request as file, then
-		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
+		# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+		#
+	        location ~ \.php$ {
+			include snippets/fastcgi-php.conf;
+		#
+		#	# With php5-cgi alone:
+		#	fastcgi_pass 127.0.0.1:9000;
+		#	# With php5-fpm:
+			fastcgi_pass unix:/var/run/php5-fpm.sock;
+		}
+
+		# deny access to .htaccess files, if Apache's document root
+		# concurs with nginx's one
+		#
+		location ~ /\.ht {
+			deny all;
+		}
 	}
 
-	# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+
+	# Virtual Host configuration for example.com
 	#
-        location ~ \.php$ {
-		include snippets/fastcgi-php.conf;
+	# You can move that to a different file under sites-available/ and symlink that
+	# to sites-enabled/ to enable it.
 	#
-	#	# With php5-cgi alone:
-	#	fastcgi_pass 127.0.0.1:9000;
-	#	# With php5-fpm:
-		fastcgi_pass unix:/var/run/php5-fpm.sock;
-	}
-
-	# deny access to .htaccess files, if Apache's document root
-	# concurs with nginx's one
+	#server {
+	#	listen 80;
+	#	listen [::]:80;
 	#
-	location ~ /\.ht {
-		deny all;
-	}
-}
+	#	server_name example.com;
+	#
+	#	root /var/www/example.com;
+	#	index index.html;
+	#
+	#	location / {
+	#		try_files $uri $uri/ =404;
+	#	}
+	#}
+	///////////////////////
 
-
-# Virtual Host configuration for example.com
-#
-# You can move that to a different file under sites-available/ and symlink that
-# to sites-enabled/ to enable it.
-#
-#server {
-#	listen 80;
-#	listen [::]:80;
-#
-#	server_name example.com;
-#
-#	root /var/www/example.com;
-#	index index.html;
-#
-#	location / {
-#		try_files $uri $uri/ =404;
-#	}
-#}
-///////////////////////
-
-ensuite relancez nginx:
+Ensuite relancez nginx:
 
 		service nginx restart
 
