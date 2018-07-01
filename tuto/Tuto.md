@@ -20,6 +20,7 @@ La démonstration s'appuie sur le réseau de la salle de réseau de l'universit�
 	- [Configuration de php et nginx](#php)
 	- [Utilisation de l'application](#utilisation)
 5. [Utilisation en dehors de qemu](#stand)
+	- [Configuration sur le réseau](#res)
 	- [Affichage de l'adresse ip au démarage](#ip)
 7. [Limites du projet](#limites)
 
@@ -414,6 +415,8 @@ L'application permet d'ajouter des images, ajouter un message protégé par un m
 		shutdown -h now
 
 ## Utilisation du server en dehors de qemu <a name="stand"></a>
+
+### Configuration sur le réseau <a name="res"></a>
 
 Vous pouvez aussi utiliser cette clef sans passer par qemu en bottant directement sur un ordinateur, pour pouvoir utiliser l'application il faura donc y acceder depuis un ordinateur connecté au même réseau que l'ordinateur qui aura lancé la clef. 
 
