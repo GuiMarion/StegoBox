@@ -11,7 +11,8 @@ La démonstration s'appuie sur le réseau de la salle de réseau de l'universit�
 ## Étapes
 
 1. [Préparation de la clef](#prep)
-2. dsf
+	- [Configuration de la clef](#config)
+2. sdf
 
 ## Préparation de la clef usb <a name="prep"></a>
 
@@ -80,7 +81,7 @@ Elle devrait correspondre à quelque chose comme /dev/sdbX, dans notre cas la pa
 
 		chroot fs
 
-### Configuration de la clef
+### Configuration de la clef <a name="config"></a>
 
 Vous êtes desormais en train de configurer la clef usb, tout ce que vous ferez se fera sur la clef usb et non sur vorez OS, c'est l'utilité de chroot.
 
