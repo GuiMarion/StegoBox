@@ -282,9 +282,9 @@ Ouvez le fichier de configuration de nginx:
 
 		vim.tiny /etc/nginx/sites-available/default
 
-Modifiez le fichier pour qu'il ressemble exactement à celui-ci : 
+Modifiez le fichier pour qu'il ressemble exactement à celui-ci (vous trouverez aussi le fichier dans le dossier /tuto/ du git): 
 
-	///////////////////////
+
 	##
 	# You should look at the following URL's in order to grasp a solid understanding
 	# of Nginx configuration files in order to fully unleash the power of Nginx.
@@ -369,72 +369,114 @@ Ensuite relancez nginx:
 
 		service nginx restart
 
-puis sur la machine hote raffrechissez la page localhost:8080,
-le site Stego box devrait s'afficher correctement
+Puis, sur la machine hote (votre ordinateur) raffraîchissez la page localhost:8080,
+le site *Stego box* devrait s'afficher correctement
 
-vous pouvez maintenant ajouter des images sur la page Upload
+Si c'est le cas, bravo ! Vous avez bien configuré l'application.
+
+### Utilisation de l'application
+
+L'application permet d'ajouter des images, ajouter un message protégé par un mot de passe à l'interieur d'une image avec de la stéganographie, ainsi que récuperer un message à partir d'une image et d'un mot de passe. 
+
+- Vous pouvez ajouter des images sur la page Upload
 (seul le format jpg est accepté)
 
-après avoir ajouter une image vous pouvez cacher un message dans cell-ci grace à la page Append
+- Après avoir ajouté une image vous pouvez cacher un message dans cell-ci grâce à la page Append
 
-puis vous pouvez extraire ce message avec la page Extract
+- Puis vous pouvez extraire ce message avec la page Extract
 
-enfin vous pouvez afficher les image sur la page View
+- Enfin vous pouvez afficher les image sur la page View
 
-quand vous avez finis de tester eteindre qemu:
+
+Pour quitter qemu : 
 
 		shutdown -h now
 
----------------------------------------------------
+## Utilisation du server en dehors de qemu
 
-Vous pouvez maintenant utiliser votre clé sans qemu:
+Vous pouvez aussi utiliser cette clef sans passer par qemu en bottant directement sur un ordinateur, pour pouvoir utiliser l'application il faura donc y acceder depuis un ordinateur connecté au même réseau que l'ordinateur qui aura lancé la clef. 
 
-bootez sur la clez (f12)
+Pour booter sur la clef, branchez la à l'ordinateur, puis allumez l'ordinateur en appuyant (quelque peu compulsivement) sur f12 (la touche peut changer selon le modèle de votre ordinateur, elle est communément affichée au démarrage)
 
-obtenir une addresse ipv4
+Pour obtenir une addresse ipv4
 
 		dhclient -4
 
-veriffier l'adresse (10.250.100.XXX)(A)
+Pour tester le fonctionnement du server sur le réseau, recuperez l'adresse ip de la machine qui heberge la clef usb : 
+
+		ipconfig
+
+Sur les ordinateurs de la salle de réseau de l'Université Claude Bernard Lyon 1 l'adresse doit être de la forme : 10.250.100.XXX, si ce n'est pas le cas, changez le cable ethernet de carte réseau (celle qui est la plus basse est la bonne).
+
+Demarrez maintenant une autre machine connecté sur le même réseau, 
+
+(si vous êtes dans la salle de réseau de l'UCBL refusez le login et verifiez l'adresse de l'autre machine (10.250.100.XXX):
 
 		ifconfig
+)
 
-demarrez une autre machine
-refuser le login
-veriffier l'adresse de l'autre machine (10.250.100.XXX)
+Ouvrez un navigateur et entrez l'adresse ip de l'ordinateur qui heberge la clef usb dans la barre du navigateur. 
 
-		ifconfig
-ouvrir un navigateur
-entrez l'adresse ip (A) dans la barre du navigateur
+Si l'application se lance, bravo, le server fonctionne sur votre réseau ! 
 
-Pour Afficher l’ip au démarrage : 
+Pour afficher uniquement l'adresse sur laquelle se connecter, vous pouvez utiliser le script Start.sh : 
 
-Rediriger l’affichage du script (script sur le git) sur /dev/tty1
+		./vat/www/html/Start.sh
 
-Echo ip >
-		/dev/tty1
+### Afficher l'adresse ip au démarrage
 
-Faire en sorte que le script se lance au démarage et s’actualise : 
+Cette étape est facultative mais vous avez peut être besoin que l'ordinateur affiche tout seul l'adresse sur laquelle se connecter sans avoir à appuyer sur quelque touche qu'il soit (ni même pour se connecter), dans ce cas continuez le tutoriel, vous serez satisfait ! 
+
+Pour cela nous avons déjà créé un script pour vous ! Il s'appelle Start.sh et est dans la racine du git, placez vous dans /var/www/html/ et testez le : 
+
+		./Start.sh
+
+Il devrait afficher l'adresse à laquelle se connecter pour acceder à l'application.
+
+Nous allons maintenant configurer le système de la clef pour le lancer au démarage.
+
+Tout d'abord changez le script pour qu'il affiche l'ip sur tty1 seulement, vous pouvez utiliser le script Start_tty1.sh du git pour aller plus vite. 
+
+Nous allons utiliser crontab pour lancer le script au démarage et l'actualiser toutes les minutes.
+
+Pour cela ouvez le fichier de config de crontab : 
 
 		crontab -e 
 
-Et ajouter à la fin du fichier 
+Et ajoutez à la fin du fichier 
 
-@reboot path_to_script
-* * * * * path_to_script
+	@reboot path_to_script
+	* * * * * path_to_script
+
+Dans notre cas, 
+
+	@reboot /var/www/html/Start_tty1.sh
+	* * * * * Start_tty1.sh
 
 Cela permet de lancer le script au démarrage ainsi que toutes les minutes (au cas où l’adresse ip change)
 
 Il faut maintenant désactiver le service getty@tty1 afin que le système lance les services (nginx par exemple), affiche l’adresse ip ne demande pas de se connecter. 
 
+		systemctl disable getty@tty1 
+
+Vous pouvez tester cette nouvelle fonctionnalité en redémarant l'ordinateur : 
+
+		reboot
+
+N'oubliez pas d'appuyer sur f12 pour booter sur la clef usb. 
+
+Si cela fonctionne, bravo, vous avez terminé le projet ! Si cette dernière étape ne fonctionne pas, ne vous inquietez pas vous pouvez réactiver tty1 : 
+
+		systemctl enable getty@tty1 
+
+et lancer le script au démarage manuellement : 
+
+		./var/www/html/Start.sh
 
 
 -----------------------------------------------------
 
-Limite : 
+## Limites
 
-Nous avons creer un script pour afficher l'address IP de la machine, ce script s'appelle Start.sh et il est situé dans le repo git, et donc dans /var/www/html.
-Cependant il  n'execute pas au demarage, nous pourrions donc l'executer automatiquement grace à autologin de cette façon nous seron également logé automatiquement.
-
-De plus notre projet est vulnérable au injection de commande shell, ce qui est extremement dangeureux d'autant plus que s'execute en tant que root ! Pour remedier à cela nous aurions put essayer de bloquer les injection dans le php et également a voir une gestion plus fine des permission utilisateurs, comme en executant nos script en tant que www/data par exemple.
+Notre projet est vulnérable au injection de commande shell, ce qui est extremement dangereux d'autant plus que s'execute en tant que root ! Pour remedier à cela nous aurions pu essayer de bloquer les injection dans le php et également avoir une gestion plus fine des permissions utilisateur, comme en executant nos script en tant que www/data par exemple.
 
