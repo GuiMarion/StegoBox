@@ -11,25 +11,29 @@ La démonstration s'appuie sur le réseau de la salle de réseau de l'universit�
 Tout d'abord il faut vous installer les paquets necessaires sur votre ordinateur : 
 
 
-passez root:
-			su
+### Passez root:
+> su
 
-effectuez les mise-à-jour:
-			apt-get update
+Effectuez les mise à jour:
+> apt-get update
 
-installez debootstrap:
+Installez debootstrap:
 > apt-get install debootstrap
 
-installez qemu:
+Installez qemu:
 > apt-get install qemu
 
-creer un rep de travail:
+
+Vous allez maintenant formatez la clef et y installer debian, placer dans un emplacement de votre ordinateur adequat pour effectuer ces opérations.
+
+
+Pour creer une répertoire de travail:
 > mkdir work
 
-aller dans le rep de travail:
+Entrez dans le répertoire de travail:
 > cd work
 
-inserez une cle usb et trouvez sa partition:
+Inserez une cle usb et recherchez sa partition:
 > fdisk -l
 
 formatez la cle:
