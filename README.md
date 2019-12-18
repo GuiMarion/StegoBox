@@ -498,7 +498,7 @@ et lancer le script au démarage manuellement :
 
 ## Limites <a name="limites"></a>
 
-Notre projet est vulnérable au injection de commande shell, ce qui est extremement dangereux d'autant plus qu'il s'exécute en tant que root ! Pour remédier à cela nous aurions pu essayer de bloquer les injections dans le php et également avoir une gestion plus fine des permissions utilisateur, comme en executant nos script en tant que *www/data* par exemple.
+Notre projet est vulnérable aux injections de commandes shell, ce qui est extremement dangereux d'autant plus qu'il s'exécute en tant que root ! Pour remédier à cela nous aurions pu essayer de bloquer les injections dans le php et également avoir une gestion plus fine des permissions utilisateur, comme en executant nos scripts en tant que *www/data* par exemple.
 
 Nous aurions aussi pu réduire l'empreinte mémoire du système de la clef usb afin de permettre d'utiliser une clef encore plus petite, voire même permettre de déplacer le système sur une machine autonome avec une très petite mémoire.
 
